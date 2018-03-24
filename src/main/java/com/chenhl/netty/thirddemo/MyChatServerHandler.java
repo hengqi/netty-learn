@@ -7,7 +7,7 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
-public class MyChatServerHandler extends SimpleChannelInboundHandler<String>{
+public class MyChatServerHandler extends SimpleChannelInboundHandler<String> {
 
     private static ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
@@ -16,9 +16,9 @@ public class MyChatServerHandler extends SimpleChannelInboundHandler<String>{
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
         Channel channel = ctx.channel();
 
-        channelGroup.forEach(ch ->{
+        channelGroup.forEach(ch -> {
             if (channel != ch) {
-                ch.writeAndFlush(channel.remoteAddress() + " 发送的消息：" + msg);
+                ch.writeAndFlush(channel.remoteAddress() + " 发送的消息：" + msg + "\n");
             } else {
                 ch.writeAndFlush("【自己】 " + msg + "\n");
             }
@@ -27,6 +27,7 @@ public class MyChatServerHandler extends SimpleChannelInboundHandler<String>{
 
     /**
      * 表示连接已建立
+     *
      * @param ctx
      * @throws Exception
      */
@@ -42,21 +43,24 @@ public class MyChatServerHandler extends SimpleChannelInboundHandler<String>{
 
     /**
      * 表示连接断开
+     *
      * @param ctx
      * @throws Exception
      */
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
         Channel channel = ctx.channel();
-        channelGroup.writeAndFlush("【服务器】 - " + channel.remoteAddress() + "离开\n");
+        channelGroup.writeAndFlush("【服务器】 - " + channel.remoteAddress() + " 离开\n");
 
         //删与不删都可以，因为netty会自动的移除掉断开的连接，无需手动删除，所以可以不用手动移除
 //        channelGroup.remove(channel);
+        System.out.println(channelGroup.size());
     }
 
 
     /**
      * 表示连接处于活动状态
+     *
      * @param ctx
      * @throws Exception
      */
@@ -69,6 +73,7 @@ public class MyChatServerHandler extends SimpleChannelInboundHandler<String>{
 
     /**
      * 表示连接处于不活动状态
+     *
      * @param ctx
      * @throws Exception
      */
