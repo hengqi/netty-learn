@@ -1,0 +1,10 @@
+Netty处理器的重要概念：
+
+1.Netty处理器可以分为两类：入栈处理器和出栈处理器
+2.入栈处理器的顶层是：ChannelInboundHandler,出栈处理器的处理器的顶层是：ChannelOutboundHandler.
+3.数据处理时，常用的各种编解码器本质上都是处理器。
+4.编解码器：无论我们向网络中写入的数据是什么类型（int, char, string, 二进制等），数据在网络中传递时，其都是以字节流的形式呈现的；
+将数据由原本的形式转换为字节流的操作作为编码（encode），将数据由字节转换为它原本的格式或是其他格式的操作作为解码（decode）,编解码统一成为codec.
+5.编码：本质上是一种出栈操作，因此编码一定是一种ChannelOutboundHandler。
+6.解码：本质上是一种入栈操作，因此解码一定是一种ChannelInboundHandler。
+7.在Netty中，编码器通常以XXXEncoder命名；编码器通常以XXXDecoder命名。
