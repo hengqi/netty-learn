@@ -5,10 +5,10 @@ import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.util.UUID;
 
-public class MyServerHandler extends SimpleChannelInboundHandler<Long> {
+public class MyServerHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, Long msg) {
+    protected void channelRead0(ChannelHandlerContext ctx, String msg) {
         System.out.println("远程客户端地址：" + ctx.channel().remoteAddress() + ", " + msg);
 
         ctx.writeAndFlush(654321L);
